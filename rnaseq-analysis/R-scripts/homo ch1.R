@@ -79,8 +79,8 @@ p <- ggplot(data = DEG, aes(x = log2FoldChange, y = -log10(padj))) +
   # 添加标题和图例
   labs(title = "Volcano Plot of Differential Expression",
        subtitle = paste0("Total genes: ", nrow(DEG), 
-                         " | Up: ", sum(DEG$change == "Up"), 
-                         " | Down: ", sum(DEG$change == "Down")),
+                         " | Up: ", sum(DEG$change == "Up"，na.rm = TRUE), 
+                         " | Down: ", sum(DEG$change == "Down"na.rm = TRUE)),
        x = "log2 Fold Change",
        color = "Expression") +
   
@@ -96,7 +96,7 @@ p <- ggplot(data = DEG, aes(x = log2FoldChange, y = -log10(padj))) +
 
 # 标记显著基因（可选）
 if(exists("UpDEG") && exists("DownDEG_5")){
-  top_genes <- rbind(UpDEG_5, DownDEG_5)
+  top_genes <- rbind(UpDEG, DownDEG_5)
   p <- p + 
     geom_point(data = top_genes, aes(x = log2FoldChange, y = -log10(padj)), 
                color = "black", size = 3, shape = 1) +
