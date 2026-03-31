@@ -14,9 +14,11 @@
 
 ## 分析工具：
 
--| Linux | Shell 脚本、Conda、fastp、STAR、featureCounts |
--| R | DESeq2、Seurat、ggplot2、pheatmap |
--| Python | pandas、scikit-learn、matplotlib |
+| Linux | Shell 脚本、Conda、fastp、STAR、featureCounts |
+
+| R | DESeq2、Seurat、ggplot2、pheatmap |
+
+| Python | pandas、scikit-learn、matplotlib |
 
 
 ## 作者
