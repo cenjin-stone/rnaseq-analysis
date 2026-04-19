@@ -20,6 +20,9 @@
 
 | Python | pandas、scikit-learn、matplotlib |
 
+# 创建 Snakemake 环境
+conda create -n rnaseq_env -c conda-forge -c bioconda snakemake fastp star subread -y
+conda activate rnaseq_env
 
 ## 作者
 石新宇
