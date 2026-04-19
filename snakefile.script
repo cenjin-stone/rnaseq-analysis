@@ -1,0 +1,41 @@
+
+SAMPLES = ["covid"]
+
+rule all:
+    input:
+        expand("results/{sample}_1.clean.fastq.gz", sample=SAMPLES),
+        expand("results/{sample}_2.clean.fastq.gz", sample=SAMPLES),
+        expand("results/{sample}_fastp.html", sample=SAMPLES),
+        expand("results/{sample}.sorted.bam", sample=SAMPLES)
+
+rule fastp_clean:
+    input:
+        read1="data/raw/{sample}_1.fastq.gz",
+        read2="data/raw/{sample}_2.fastq.gz"
+    output:
+        read1="results/{sample}_1.clean.fastq.gz",
+        read2="results/{sample}_2.clean.fastq.gz",
+        json="results/{sample}_fastp.json",
+        html="results/{sample}_fastp.html"
+    shell:
+        "fastp -i {input.read1} -I {input.read2} " \
+        " -o {output.read1} -O {output.read2} " \
+        " -j {output.json} -h {output.html}"
+
+rule star_align:
+    input:
+        r1="results/{sample}_1.clean.fastq.gz",
+        r2="results/{sample}_2.clean.fastq.gz",
+        index="reference/star_index"
+    output:
+        bam="results/{sample}.sorted.bam"
+    params:
+        prefix="results/{sample}"
+    shell:
+        "STAR --genomeDir {input.index}"\
+        " --readFilesIn {input.r1} {input.r2}"\
+        " --readFilesCommand zcat"\
+        " --outFileNamePrefix {params.prefix}"\
+        " --outSAMtype BAM SortedByCoordinate"\
+        " --runThreadN 4 && "\ 
+        "mv {params.prefix}Aligned.sortedByCoord.out.bam {output.bam}"
